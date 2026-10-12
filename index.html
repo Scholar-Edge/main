@@ -68,7 +68,7 @@ const SUB={'Mathematics':[4,10],'Quantitative Reasoning':[5,10],'Verbal Reasonin
 const EX={ACER:{s:['Mathematics','Reading Comprehension','Quantitative Reasoning','Pattern Reasoning'],n:15,m:20},Edutest:{s:['Reading Comprehension','Mathematics','Verbal Reasoning','Quantitative Reasoning','Pattern Reasoning'],n:15,m:20},'Other (general / school-specific)':{s:Object.keys(SUB),n:12,m:15}};
 const subjFor=(e,y)=>EX[e].s.filter(s=>SUB[s][0]<=y&&y<=SUB[s][1]);
 /* ---------- accounts: Supabase (paste your two values here) ---------- */
-const SB_URL='PASTE_PROJECT_URL',SB_KEY='PASTE_ANON_KEY';
+const SB_URL='https://ukjnhyumzsazdkqpvpqp.supabase.co/rest/v1/',SB_KEY='sb_publishable_yyWm1l1uhdzRK4XHDsxfmg_1-JilPL-';
 let S=LS('sp_sess'),RES=[],IS_ADMIN=false,AD=null;
 async function sb(path,o={},retry=1){let h={apikey:SB_KEY,'Content-Type':'application/json',...(o.h||{})};if(S&&!o.noauth)h.Authorization='Bearer '+S.access_token;
 let x;try{x=await fetch(SB_URL+path,{method:o.m||'GET',headers:h,body:o.b?JSON.stringify(o.b):undefined})}catch(e){throw new Error('Could not reach '+SB_URL+path.split('?')[0]+' ('+e.message+'). Check SB_URL, or turn off Brave Shields / content blockers for this site.')}
