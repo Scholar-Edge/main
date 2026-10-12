@@ -74,7 +74,7 @@ async function sb(path,o={},retry=1){let h={apikey:SB_KEY,'Content-Type':'applic
 let x;try{x=await fetch(SB_URL+path,{method:o.m||'GET',headers:h,body:o.b?JSON.stringify(o.b):undefined})}catch(e){throw new Error('Could not reach '+SB_URL+path.split('?')[0]+' ('+e.message+'). Check SB_URL, or turn off Brave Shields / content blockers for this site.')}
 if(x.status==401&&S&&retry&&!o.noauth&&await refresh())return sb(path,o,0);
 let j=null;try{j=await x.json()}catch(e){}
-if(!x.ok)throw new Error((j&&(j.msg||j.error_description||j.message||j.error))||'Request failed ('+x.status+')');return j}
+if(!x.ok)throw new Error(((j&&(j.msg||j.error_description||j.message||j.error))||'Request failed ('+x.status+')')+' ['+(o.m||'GET')+' '+SB_URL+path.split('?')[0]+']');return j}
 async function refresh(){try{keep(await sb('/auth/v1/token?grant_type=refresh_token',{m:'POST',b:{refresh_token:S.refresh_token},noauth:1}));return 1}catch(e){S=null;localStorage.removeItem('sp_sess');return 0}}
 function keep(j){S={access_token:j.access_token,refresh_token:j.refresh_token,uid:j.user.id,email:j.user.email};SV('sp_sess',S)}
 async function enter(){U=S.email;RES=(await sb('/rest/v1/results?select=created_at,ex,y,md,q&order=created_at.asc&user_id=eq.'+S.uid)).map(a=>({d:new Date(a.created_at).toLocaleString(),ex:a.ex,y:a.y,md:a.md,q:a.q}));try{IS_ADMIN=(await sb('/rest/v1/admins?select=user_id')).length>0}catch(e){IS_ADMIN=false}home()}
