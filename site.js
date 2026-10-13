@@ -1,0 +1,1 @@
+(function(){var z=100;try{z=+localStorage.getItem('sp_fz')||100}catch(e){}function ap(){document.documentElement.style.fontSize=z+'%'}window.fz=function(d){z=Math.max(85,Math.min(150,z+d*12));ap();try{localStorage.setItem('sp_fz',z)}catch(e){}};ap()})();
